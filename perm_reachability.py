@@ -10,7 +10,7 @@ def create_all_transformations(n, d, l):
     """
 
     :param n: length of each permutation
-    :param d: param d specified in the assignment
+    :param d: parameter restricting the distance of swap pair indices
     :param l: max number of permitted swap operations
     :return: a 2D list of all valid matrix transformations grouped by number of swap operations
     """
@@ -56,10 +56,10 @@ def create_all_reachable_permutations(n, d, l, src_perm):
     """
 
     :param n: length of each permutation
-    :param d: param d specified in the assignment
+    :param d: parameter restricting the distance of swap pair indices
     :param l: max number of permitted swap operations
     :param src_perm: permutation to start from
-    :return: a list of all (d,l)-reachable permutations from the starting_permutation
+    :return: a list of all (d,l)-reachable permutations from src_perm
     """
 
     res = set()
@@ -77,11 +77,11 @@ def is_reachable(n, d, l, start_perm, end_perm):
     """
 
     :param n: length of each permutation
-    :param d: param d specified in the assignment
+    :param d: parameter restricting the distance of swap pair indices
     :param l: max number of permitted swap operations
     :param start_perm: permutation to start from
     :param end_perm: permutation to reach
-    :return: whether end_permutation is (d,l)-reachable from str_permutation
+    :return: whether end_perm is (d,l)-reachable from start_perm
     """
 
     permutations_from_str = create_all_reachable_permutations(n, d, math.floor(l / 2), start_perm)

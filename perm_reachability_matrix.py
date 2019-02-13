@@ -6,7 +6,7 @@ from utils import *
 def create_trans_matrix(swap_pair, n):
     """
 
-    :param swap_pair: containing two indices, which indicate which two items in the permutation will be swapped
+    :param swap_pair: containing two indices, indicating the position of the items in the permutation to be swapped
     :param n: length of each permutation
     :return: the corresponding matrix representation for the given swap pair
     """
@@ -27,7 +27,7 @@ def create_pd_matrices(n, d):
     """
 
     :param n: length of each permutation
-    :param d: parameter restricting the distance of swap pair elements
+    :param d: parameter restricting the distance of swap pair indices
     :return: a list of matrix representations corresponding to all valid transformations with one swap operation
     """
 
@@ -44,7 +44,7 @@ def create_permutations_with_one_more_swap(pd_matrices, cur_permutations):
 
     :param pd_matrices: list of matrix representations for all valid swap pairs
     :param cur_permutations: permutations created up to now
-    :return: all valid transformations with one more swap operation
+    :return: all valid permutations reached using one more swap operation
     """
 
     res = []
@@ -56,12 +56,12 @@ def create_permutations_with_one_more_swap(pd_matrices, cur_permutations):
     return res
 
 
-def add_new_permutations(cur_permutations, pd_matrices):
+def add_permutations_with_one_more_swap(cur_permutations, pd_matrices):
     """
 
     :param cur_permutations: a list of current permutations
     :param pd_matrices: list of matrix representations for all valid swap pairs
-    :return:
+    :return: a list of permutations containing cur_permutations as well as new ones using one more swap operation
     """
 
     new_permutations = create_permutations_with_one_more_swap(pd_matrices, cur_permutations=cur_permutations)
@@ -76,7 +76,7 @@ def create_all_reachable_permutations(n, d, l, str_permutation, end_permutation)
     """
 
     :param n: length of each permutation
-    :param d: parameter restricting the distance of swap pair elements
+    :param d: parameter restricting the distance of swap pair indices
     :param l: max number of permitted swap operations
     :param str_permutation: permutation to start from
     :param end_permutation: permutation to arrive at
@@ -89,8 +89,15 @@ def create_all_reachable_permutations(n, d, l, str_permutation, end_permutation)
     permutations_from_end = [np.matmul(end_permutation, x) for x in pd_matrices]
 
     for _ in range(1, l):
-        permutations_from_str = add_new_permutations(cur_permutations=permutations_from_str, pd_matrices=pd_matrices)
-        permutations_from_end = add_new_permutations(cur_permutations=permutations_from_end, pd_matrices=pd_matrices)
+        permutations_from_str = add_permutations_with_one_more_swap(
+            cur_permutations=permutations_from_str,
+            pd_matrices=pd_matrices
+        )
+
+        permutations_from_end = add_permutations_with_one_more_swap(
+            cur_permutations=permutations_from_end,
+            pd_matrices=pd_matrices
+        )
 
     return permutations_from_str, permutations_from_end
 
@@ -99,7 +106,7 @@ def is_reachable(n, d, l, str_permutation, end_permutation):
     """
 
     :param n: length of each permutation
-    :param d: parameter restricting the distance of swap pair elements
+    :param d: parameter restricting the distance of swap pair indices
     :param l: max number of permitted swap operations
     :param str_permutation: permutation to start from
     :param end_permutation: permutation to reach
