@@ -3,7 +3,7 @@ from copy import deepcopy
 
 import numpy as np
 
-from src.utils import create_swap_pairs
+from utils import create_swap_pairs
 
 
 def create_all_transformations(n, d, l):

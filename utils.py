@@ -1,7 +1,10 @@
+import numpy as np
+
+
 def create_swap_pairs(d, n):
     """
 
-    :param d: param d specified in the assignment
+    :param d: restricts the distance of swap pair elements: d <= j - i <= n - d
     :param n: length of each permutation
     :return: all valid index pairs for which a swap can take place
     """
@@ -14,3 +17,21 @@ def create_swap_pairs(d, n):
                 res.append((i, j))
 
     return res
+
+
+def have_intersection(l1, l2):
+    t1 = set((a.tostring(), a.dtype) for a in l1)
+    t2 = set((a.tostring(), a.dtype) for a in l2)
+
+    return t1.intersection(t2) != set()
+
+
+def remove_duplicates(np_arrays):
+    """
+
+    :param np_arrays: list of numpy array objects
+    :return: returns the same list after removing duplicate elements
+    """
+
+    temp = set((a.tostring(), a.dtype) for a in np_arrays)
+    return [np.fromstring(a, dtype=dtype) for a, dtype in temp]
